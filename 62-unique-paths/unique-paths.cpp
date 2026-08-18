@@ -1,19 +1,18 @@
 class Solution {
 public:
-    int solve(int m,int n,vector<vector<int>> &dp){
-        if(m==0 && n==0){
+    int solve(int row,int col,vector<vector<int>> &dp){
+        if(row==0 && col==0){
             return 1;
         }
-        if(dp[m][n]!=-1)return dp[m][n];
-        int fir=0,sec=0;
-        if(m>0){
-            fir=solve(m-1,n,dp);
+        if(dp[row][col]!=-1)return dp[row][col];
+        int top=0,right=0;
+        if(row>0){
+            top=solve(row-1,col,dp);
         }
-        if(n>0){
-            sec=solve(m,n-1,dp);
-
+        if(col>0){
+            right=solve(row,col-1,dp);
         }
-        return dp[m][n]=fir+sec;
+        return dp[row][col]=top+right;
     }
     int uniquePaths(int m, int n) {
         vector<vector<int>> dp(m,vector<int>(n,-1));
