@@ -16,30 +16,35 @@ public:
         method1(head->next,nums);
     }
     vector<int> nodesBetweenCriticalPoints(ListNode* head) {
-        vector<int> nums;
-        method1(head,nums);
-        int n=nums.size();
-        vector<int> maxi;
-        for(int i=1;i<n-1;i++){
-            if(nums[i]<nums[i-1] && nums[i]<nums[i+1]){
-                maxi.push_back(i);
+       int first=-1,last=-1;
+       int prev=-1;
+       int prevNum=head->val;
+       int res2=INT_MAX;
+       
+       ListNode* temp=head->next;
+       int ind=1;
+       while(temp->next!=NULL){
+            bool flag=false;
+            if(temp->val>prevNum && (temp->val)>(temp->next->val)){
+            flag=true;
             }
-            if(nums[i]>nums[i-1] && nums[i]>nums[i+1]){
-                maxi.push_back(i);
+            if(temp->val<prevNum && (temp->val)<(temp->next->val)){
+            flag=true;
             }
-        }
-        int m=maxi.size();
-        if(m<2)return {-1,-1};
-        int res1=maxi[m-1]-maxi[0];
-        int res2=INT_MAX;
-        for(int i=0;i<m-1;i++){
-            int temp=maxi[i+1]-maxi[i];
-            res2=min(res2,temp);
-        }
-        // int maxi1=*max_element(maxi.begin(),maxi.end())-*min_element(mini.begin(),mini.end());
-        // int maxi2=*max_element(maxi.begin(),maxi.end())-*max_element(mini.begin(),mini.end());
-        // return {abs(maxi1),abs(maxi2)};
-        return {res2,res1};
+            if(flag){
+                if(first==-1){first=ind;}
+                if(prev!=-1){res2=min(res2,ind-prev);}
+                prev=ind;
+            }
+            prevNum=temp->val;
+            ind++;
+            temp=temp->next;
 
+
+       }
+       if(prev==first){return {-1,-1};}
+
+       int res1=prev-first;
+       return {res2,res1};
     }
 };
