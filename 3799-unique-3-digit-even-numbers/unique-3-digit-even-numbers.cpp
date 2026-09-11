@@ -2,7 +2,7 @@ class Solution {
 public:
     int totalNumbers(vector<int>& d) {
         int n=d.size();
-        map<int,int> mp;
+        vector<int> mp(10,0);
         for(int i=0;i<n;i++){
             mp[d[i]]++;
         }
