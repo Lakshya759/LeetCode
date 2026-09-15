@@ -1,7 +1,6 @@
 class Solution:
     def solve(self,r,c,m,n,dp):
-        if(r>=m or r<0 or c>=n or c<0):
-            return 0
+        
         if(r==m-1 and c==n-1):
             return 1
         if(dp[r][c]!=-1):
