@@ -1,43 +1,83 @@
 class Solution {
 public:
-    void solve(vector<vector<char>>& board) {
-        int n=board.size();
-        int m=board[0].size();
+    // void bfs(int row,int col, vector<vector<int>> &vis, vector<vector<char>> &mat){
+    //     int n=mat.size();
+    //     int m=mat[0].size();
+    //     queue<pair<int,int>> q;
+       
+        
+    //     q.push({row,col});
+    //     vis[row][col]=1;
+    //     while(!q.empty()){
+    //         int row=q.front().first;
+    //         int col=q.front().second;
+            
+    //         q.pop();
+    //         vector<int> dr={0,0,1,-1};
+    //         vector<int> dc={-1,1,0,0};
+    //         for(int i=0;i<4;i++){
+    //             int r=row+dr[i];
+    //             int c=col+dc[i];
+    //             if(r>=0 && r<n && c>=0 && c<m && vis[r][c]==0 && mat[r][c]=='0'){
+                    
+    //                 vis[r][c]=1;
+    //                 q.push({r,c});
+    //             }
+    //         }
+    //     }
+    // }
+    void solve(vector<vector<char>>& mat) {
+        int n=mat.size();
+        int m=mat[0].size();
         queue<pair<int,int>> q;
         vector<vector<int>> vis(n,vector<int>(m,0));
-        
         for(int i=0;i<n;i++){
-            for(int j=0;j<m;j++){
-                if((i==0 || i==n-1 || j==0 || j==m-1)&& board[i][j]=='O'){
-                    q.push({i,j});
-                    vis[i][j]=1;
-                }
+            if(mat[i][0]=='O'){
+                q.push({i,0});
+                vis[i][0]=1;
+            }
+            if(mat[i][m-1]=='O'){
+                q.push({i,m-1});
+                vis[i][m-1]=1;
             }
         }
-        
 
+        for(int i=0;i<m;i++){
+            if(mat[0][i]=='O'){
+                q.push({0,i});
+                vis[0][i]=1;
+            }
+            if(mat[n-1][i]=='O'){
+                q.push({n-1,i});
+                vis[n-1][i]=1;
+            }
+        }
         while(!q.empty()){
             int row=q.front().first;
             int col=q.front().second;
             q.pop();
-            vector<int> dr={-1,0,1,0};
-            vector<int> dc={0,1,0,-1};
+            vector<int> dr={0,0,1,-1};
+            vector<int> dc={-1,1,0,0};
             for(int i=0;i<4;i++){
-                int nr=row+dr[i];
-                int nc=col+dc[i];
-                if((nr>=0 && nr<n) && (nc>=0 && nc<m) && board[nr][nc]=='O' && vis[nr][nc]==0){
-                    vis[nr][nc]=1;
-                    q.push({nr,nc});
+                int r=row+dr[i];
+                int c=col+dc[i];
+                if(r>=0 && r<n && c>=0 && c<m && mat[r][c]=='O' && vis[r][c]==0){
+                    vis[r][c]=1;
+                    q.push({r,c});
                 }
+
             }
         }
-
         for(int i=0;i<n;i++){
             for(int j=0;j<m;j++){
-                if(board[i][j]=='O' && vis[i][j]==0){
-                    board[i][j]='X';
+                if(mat[i][j]=='O' && vis[i][j]==0){
+                    mat[i][j]='X';
                 }
             }
         }
+        
+        
+
+        
     }
 };
