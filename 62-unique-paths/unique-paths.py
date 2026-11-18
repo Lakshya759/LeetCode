@@ -1,24 +1,18 @@
 class Solution:
-    def solve(self,r,c,m,n,dp):
-        
-        if(r==m-1 and c==n-1):
+    def solve(self,row,col,n,m,l):
+        if(row==n and col==m):
             return 1
-        if(dp[r][c]!=-1):
-            return dp[r][c]
-        dr=[1,0]
-        dc=[0,1]
-        res=0
-        for i in range(2):
-            nr=r+dr[i]
-            nc=c+dc[i]
-            if(nr>=0 and nr<m and nc>=0 and nc<n):
-                res+=self.solve(nr,nc,m,n,dp)
-        dp[r][c]=res
-        return dp[r][c]
+        if(row>n or col>m):
+            return 0
+        if(l[row][col]!=-1):
+            return l[row][col]
+        right=self.solve(row,col+1,n,m,l)
+        down=self.solve(row+1,col,n,m,l)
+        l[row][col]=right+down
+        return l[row][col]
 
-    def uniquePaths(self, m: int, n: int) -> int:
-        dp=[[-1]*(n+1) for i in range(m+1)]
-        res=self.solve(0,0,m,n,dp)
-        return res
+    def uniquePaths(self, n: int, m: int) -> int:
+        l=[[-1]*(m+1) for _ in range(n+1)]
+        return self.solve(1,1,n,m,l)
 
         
